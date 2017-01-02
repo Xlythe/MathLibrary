@@ -51,7 +51,7 @@ public class Constants {
 
         // We have to be careful with the Matrix Separator.
         // It defaults to "," but that's a common decimal point.
-        if (DECIMAL_POINT == ',') MATRIX_SEPARATOR = ' ';
+        if (DECIMAL_POINT == ',') MATRIX_SEPARATOR = ';';
         else MATRIX_SEPARATOR = ',';
 
         String number = "A-F0-9" +
