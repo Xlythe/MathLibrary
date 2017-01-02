@@ -71,7 +71,7 @@ public class Solver {
      */
     public String solve(String input) throws SyntaxException {
         if (displayContainsMatrices(input)) {
-            return mMatrixModule.evaluateMatrices(input);
+            return mMatrixModule.evaluateMatrices(input).trim();
         }
 
         if (input.trim().isEmpty()) {
@@ -124,7 +124,7 @@ public class Solver {
 
         if (mLocalizer != null) result = mLocalizer.relocalize(result);
 
-        return result;
+        return result.trim();
     }
 
     public double eval(String input) throws SyntaxException {
