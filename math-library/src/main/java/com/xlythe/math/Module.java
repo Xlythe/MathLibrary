@@ -9,24 +9,24 @@ public class Module {
 
     // Used for formatting Dec, Bin, and Hex.
     // Dec looks like 1,234,567. Bin is 1010 1010. Hex is 0F 1F 2F.
-    private final int mDecSeparatorDistance = 3;
-    private final int mBinSeparatorDistance = 4;
-    private final int mHexSeparatorDistance = 2;
+    private static final int DECIMAL_SEPARATOR_DISTANCE = 3;
+    private static final int BINARY_SEPARATOR_DISTANCE = 4;
+    private static final int HEXADEICMAL_SEPARATOR_DISTANCE = 2;
 
     Module(Solver solver) {
         mSolver = solver;
     }
 
     public int getDecSeparatorDistance() {
-        return mDecSeparatorDistance;
+        return DECIMAL_SEPARATOR_DISTANCE;
     }
 
     public int getBinSeparatorDistance() {
-        return mBinSeparatorDistance;
+        return BINARY_SEPARATOR_DISTANCE;
     }
 
     public int getHexSeparatorDistance() {
-        return mHexSeparatorDistance;
+        return HEXADEICMAL_SEPARATOR_DISTANCE;
     }
 
     public char getDecimalPoint() {

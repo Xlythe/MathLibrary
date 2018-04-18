@@ -189,7 +189,7 @@ public class BaseModule extends Module {
             split[1] = split[1].substring(0, 13);
         }
 
-        double decimal = 0;
+        double decimal;
         if (originalBase != 10) {
             String decimalFraction = Long.toString(Long.parseLong(split[1], originalBase)) + "/" + originalBase + "^" + split[1].length();
             decimal = getSolver().eval(decimalFraction);

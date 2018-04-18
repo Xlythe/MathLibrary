@@ -52,7 +52,6 @@ public class Voice {
                 if (input.substring(i).startsWith(ex)) {
                     text += input.substring(i, i + ex.length());
                     i += ex.length();
-                    continue;
                 }
             }
 

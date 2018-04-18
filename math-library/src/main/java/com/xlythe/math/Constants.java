@@ -28,8 +28,6 @@ public class Constants {
     public static char MATRIX_SEPARATOR;
     public static String REGEX_NUMBER;
     public static String REGEX_NOT_NUMBER;
-    // Values for decimals and comas
-    private static DecimalFormatSymbols DECIMAL_FORMAT;
 
     static {
         rebuildConstants();
@@ -39,11 +37,11 @@ public class Constants {
      * If the locale changes, but the app is still in memory, you may need to rebuild these constants
      */
     public static void rebuildConstants() {
-        DECIMAL_FORMAT = new DecimalFormatSymbols();
+        DecimalFormatSymbols decimalFormat = new DecimalFormatSymbols();
 
         // These will already be known by Java
-        DECIMAL_POINT = DECIMAL_FORMAT.getDecimalSeparator();
-        DECIMAL_SEPARATOR = DECIMAL_FORMAT.getGroupingSeparator();
+        DECIMAL_POINT = decimalFormat.getDecimalSeparator();
+        DECIMAL_SEPARATOR = decimalFormat.getGroupingSeparator();
 
         // Use a space for Bin and Hex
         BINARY_SEPARATOR = ' ';
