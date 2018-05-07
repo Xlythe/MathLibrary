@@ -12,9 +12,10 @@ import java.util.Map;
  * <p>
  * This assumes the app has English translations
  */
+@SuppressWarnings({"WeakerAccess", "unused", "StatementWithEmptyBody"})
 public class Localizer {
     private static final String TAG = Localizer.class.getSimpleName();
-    private final Map<String, String> mMap = new HashMap<String, String>();
+    private final Map<String, String> mMap = new HashMap<>();
     private boolean mUseDegrees = false;
 
     public Localizer(Context context, Class r) {
@@ -50,6 +51,10 @@ public class Localizer {
         } catch (ClassNotFoundException e) {
             // Do nothing. Happens if no Strings are found.
         }
+    }
+
+    public void setUseDegrees(boolean useDegrees) {
+        mUseDegrees = useDegrees;
     }
 
     private boolean detect(Context context, Field f, String phrase) throws IllegalAccessException {

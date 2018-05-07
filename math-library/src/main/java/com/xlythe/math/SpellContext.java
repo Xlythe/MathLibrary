@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
+@SuppressWarnings({"WeakerAccess", "unused", "StringConcatenationInLoop"})
 public class SpellContext {
     private static String mySuffixText[] = {"", // Dummy! no level 0
             "", // Nothing for level 1
             " Thousand", " Million", " Billion", " Trillion", " (Thousand Trillion)", " (Million Trillion)", " (Billion Trillion)",};
-    private static String myTeenText[] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Ninteen",};
+    private static String myTeenText[] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen",};
     // used appropriately for under-cent values:
     private static String myCentText[] = {"Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
     // used appropriately for under-mil values.
     private static String myMilText[] = {"One Hundred", "Two Hundred", "Three Hundred", "Four Hundred", "Five Hundred", "Six Hundred", "Seven Hundred", "Eight Hundred", "Nine Hundred"};
-    private static String[] myBelowThousandWords = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "ninteen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "hundred"};
-    private static ArrayList<String> myBelowThousandWordList = new ArrayList<String>(Arrays.asList(myBelowThousandWords));
-    private static long[] myBelowThousandValuess = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+    private static String[] myBelowThousandWords = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "hundred"};
+    private static ArrayList<String> myBelowThousandWordList = new ArrayList<>(Arrays.asList(myBelowThousandWords));
+    private static long[] myBelowThousandValues = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 30, 40, 50, 60, 70, 80, 90, 100};
     private static String[] mySuffixWords = {"trillion", "billion", "million", "thousand"};
     private static long[] mySuffixValues = {1000000000000L, 1000000000L, 1000000L, 1000L};
 
@@ -39,6 +40,7 @@ public class SpellContext {
                     i += goingBackward.length() - 1;
                     continue goingForward;
                 } catch (SpellException e) {
+                    e.printStackTrace();
                 }
             }
             result += input.charAt(i);
@@ -84,7 +86,7 @@ public class SpellContext {
         }
 
         if (number / 1000L > 0) {
-            return WithSeparator(number / 1000L) + "," + String.format("%1$03d", number % 1000L);
+            return WithSeparator(number / 1000L) + "," + String.format(Locale.getDefault(), "%1$03d", number % 1000L);
         } else {
             return String.format(Locale.US, "%1$d", number);
         }
@@ -142,12 +144,12 @@ public class SpellContext {
                 throw new SpellException("Unknown token : " + word);
             }
 
-            long subval = getValueOf(word);
+            long subValue = getValueOf(word);
 
-            if (subval == 100) {
+            if (subValue == 100) {
                 if (value == 0) value = 100;
                 else value *= 100;
-            } else value += subval;
+            } else value += subValue;
 
         }
 
@@ -156,7 +158,7 @@ public class SpellContext {
 
     private static long getValueOf(String word) {
 
-        return myBelowThousandValuess[myBelowThousandWordList.indexOf(word)];
+        return myBelowThousandValues[myBelowThousandWordList.indexOf(word)];
     }
 
     public static long parse(String text) throws SpellException {

@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class MatrixModule extends Module {
     private static final String TAG = MatrixModule.class.getSimpleName();
 
@@ -202,7 +203,7 @@ public class MatrixModule extends Module {
         // Sub pi
         input = input.replace("\u03c0", "3.1415926535897932384626");
 
-        // Split into seperate arrays of operators and operands.
+        // Split into separate arrays of operators and operands.
         // Operator 0 applies to operands 0 and 1, and so on
         String[] parts = input.split("\u00d7|\\+|(?<=\\d|\\])(?<=\\d|\\])-|\u00f7|\\^");
         char[] ops = opSplit(input);
@@ -295,174 +296,178 @@ public class MatrixModule extends Module {
     private String applyFunc(String func, String arg) throws SyntaxException {
         arg = clean(arg);
         double DEG = Math.PI / 180.0;
-        if (func.equals("\u221a"))// sqrt
-        {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix matrix = parseMatrix(arg);
-                int m = matrix.numRows();
-                int n = matrix.numCols();
-                if (m != n) throw new SyntaxException();
-                SimpleEVD<SimpleMatrix> decomp = new SimpleEVD<SimpleMatrix>(matrix.getMatrix());
-                double[] evals = new double[m];
-                for (int i1 = 0; i1 < m; i1++) {
-                    evals[i1] = Math.sqrt(decomp.getEigenvalue(i1).getMagnitude());
-                }
-                SimpleMatrix D = SimpleMatrix.diag(evals);
-                SimpleMatrix V = new SimpleMatrix(m, n);
-                for (int k = 0; k < m; k++) {
-                    SimpleMatrix col = decomp.getEigenVector(k);
-                    for (int l = 0; l < n; l++) {
-                        V.set(k, l, col.get(l, 0));
+        switch (func) {
+            case "\u221a":
+// sqrt
+
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix matrix = parseMatrix(arg);
+                    int m = matrix.numRows();
+                    int n = matrix.numCols();
+                    if (m != n) throw new SyntaxException();
+                    SimpleEVD<SimpleMatrix> decomp = new SimpleEVD<>(matrix.getMatrix());
+                    double[] evals = new double[m];
+                    for (int i1 = 0; i1 < m; i1++) {
+                        evals[i1] = Math.sqrt(decomp.getEigenvalue(i1).getMagnitude());
                     }
-                }
-                SimpleMatrix temp = V.mult(D);
-                temp = temp.mult(V.invert());
-                return printMatrix(temp);
-            } else return numToString(Math.sqrt(Double.parseDouble(arg)));
-        } else if (func.equals("cbrt")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix matrix = parseMatrix(arg);
-                int m = matrix.numRows();
-                int n = matrix.numCols();
-                if (m != n) throw new SyntaxException();
-                SimpleEVD<SimpleMatrix> decomp = new SimpleEVD<SimpleMatrix>(matrix.getMatrix());
-                double[] evals = new double[m];
-                for (int i1 = 0; i1 < m; i1++) {
-                    evals[i1] = Math.cbrt(decomp.getEigenvalue(i1).getMagnitude());
-                }
-                SimpleMatrix D = SimpleMatrix.diag(evals);
-                SimpleMatrix V = new SimpleMatrix(m, n);
-                for (int k = 0; k < m; k++) {
-                    SimpleMatrix col = decomp.getEigenVector(k);
-                    for (int l = 0; l < n; l++) {
-                        V.set(k, l, col.get(l, 0));
+                    SimpleMatrix D = SimpleMatrix.diag(evals);
+                    SimpleMatrix V = new SimpleMatrix(m, n);
+                    for (int k = 0; k < m; k++) {
+                        SimpleMatrix col = decomp.getEigenVector(k);
+                        for (int l = 0; l < n; l++) {
+                            V.set(k, l, col.get(l, 0));
+                        }
                     }
-                }
-                SimpleMatrix temp = V.mult(D);
-                temp = temp.mult(V.invert());
-                return printMatrix(temp);
-            } else return numToString(Math.cbrt(Double.parseDouble(arg)));
-        } else if (func.equals("sin")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.sin(m.get(i, j)));
-                return printMatrix(m);
-            } else return numToString(Math.sin(Double.parseDouble(arg)));
-        } else if (func.equals("cos")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.cos(m.get(i, j)));
-                return printMatrix(m);
-            } else return numToString(Math.cos(Double.parseDouble(arg)));
-        } else if (func.equals("tan")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.tan(m.get(i, j)));
-                return printMatrix(m);
-            } else return numToString(Math.tan(Double.parseDouble(arg)));
-        } else if (func.equals("sind")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.sin(m.get(i, j) * DEG));
-                return printMatrix(m);
-            } else return numToString(Math.sin(Double.parseDouble(arg) * DEG));
-        } else if (func.equals("cosd")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.cos(m.get(i, j) * DEG));
-                return printMatrix(m);
-            } else return numToString(Math.cos(Double.parseDouble(arg) * DEG));
-        } else if (func.equals("tand")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.tan(m.get(i, j) * DEG));
-                return printMatrix(m);
-            } else return numToString(Math.tan(Double.parseDouble(arg) * DEG));
-        } else if (func.equals("asind")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.asin(m.get(i, j) / DEG));
-                return printMatrix(m);
-            } else return numToString(Math.asin(Double.parseDouble(arg)) / DEG);
-        } else if (func.equals("acosd")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.acos(m.get(i, j)) / DEG);
-                return printMatrix(m);
-            } else return numToString(Math.acos(Double.parseDouble(arg)) / DEG);
-        } else if (func.equals("atand")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.atan(m.get(i, j)) / DEG);
-                return printMatrix(m);
-            } else return numToString(Math.atan(Double.parseDouble(arg)) / DEG);
-        } else if (func.equals("log")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.log10(m.get(i, j)));
-                return printMatrix(m);
-            } else return numToString(Math.log10(Double.parseDouble(arg)));
-        } else if (func.equals("ln")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.log(m.get(i, j)));
-                return printMatrix(m);
-            } else return numToString(Math.log(Double.parseDouble(arg)));
-        } else if (func.equals("asin")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.asin(m.get(i, j)));
-                return printMatrix(m);
-            } else return numToString(Math.asin(Double.parseDouble(arg)));
-        } else if (func.equals("acos")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.acos(m.get(i, j)));
-                return printMatrix(m);
-            } else return numToString(Math.acos(Double.parseDouble(arg)));
-        } else if (func.equals("atan")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                for (int i = 0; i < m.numRows(); i++)
-                    for (int j = 0; j < m.numCols(); j++)
-                        m.set(i, j, Math.atan(m.get(i, j)));
-                return printMatrix(m);
-            } else return numToString(Math.atan(Double.parseDouble(arg)));
-        } else if (func.equals("det")) {
-            if (arg.startsWith("[[")) {
-                SimpleMatrix m = parseMatrix(arg);
-                if (m.numCols() != m.numRows()) throw new SyntaxException();
-                double d = m.determinant();
-                return numToString(d);
-            } else return arg; // Determinant of a scalar is equivalent to det. of
-            // 1x1 matrix, which is the matrix' one element
-        } else throw new SyntaxException();
+                    SimpleMatrix temp = V.mult(D);
+                    temp = temp.mult(V.invert());
+                    return printMatrix(temp);
+                } else return numToString(Math.sqrt(Double.parseDouble(arg)));
+            case "cbrt":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix matrix = parseMatrix(arg);
+                    int m = matrix.numRows();
+                    int n = matrix.numCols();
+                    if (m != n) throw new SyntaxException();
+                    SimpleEVD<SimpleMatrix> decomp = new SimpleEVD<>(matrix.getMatrix());
+                    double[] evals = new double[m];
+                    for (int i1 = 0; i1 < m; i1++) {
+                        evals[i1] = Math.cbrt(decomp.getEigenvalue(i1).getMagnitude());
+                    }
+                    SimpleMatrix D = SimpleMatrix.diag(evals);
+                    SimpleMatrix V = new SimpleMatrix(m, n);
+                    for (int k = 0; k < m; k++) {
+                        SimpleMatrix col = decomp.getEigenVector(k);
+                        for (int l = 0; l < n; l++) {
+                            V.set(k, l, col.get(l, 0));
+                        }
+                    }
+                    SimpleMatrix temp = V.mult(D);
+                    temp = temp.mult(V.invert());
+                    return printMatrix(temp);
+                } else return numToString(Math.cbrt(Double.parseDouble(arg)));
+            case "sin":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.sin(m.get(i, j)));
+                    return printMatrix(m);
+                } else return numToString(Math.sin(Double.parseDouble(arg)));
+            case "cos":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.cos(m.get(i, j)));
+                    return printMatrix(m);
+                } else return numToString(Math.cos(Double.parseDouble(arg)));
+            case "tan":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.tan(m.get(i, j)));
+                    return printMatrix(m);
+                } else return numToString(Math.tan(Double.parseDouble(arg)));
+            case "sind":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.sin(m.get(i, j) * DEG));
+                    return printMatrix(m);
+                } else return numToString(Math.sin(Double.parseDouble(arg) * DEG));
+            case "cosd":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.cos(m.get(i, j) * DEG));
+                    return printMatrix(m);
+                } else return numToString(Math.cos(Double.parseDouble(arg) * DEG));
+            case "tand":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.tan(m.get(i, j) * DEG));
+                    return printMatrix(m);
+                } else return numToString(Math.tan(Double.parseDouble(arg) * DEG));
+            case "asind":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.asin(m.get(i, j) / DEG));
+                    return printMatrix(m);
+                } else return numToString(Math.asin(Double.parseDouble(arg)) / DEG);
+            case "acosd":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.acos(m.get(i, j)) / DEG);
+                    return printMatrix(m);
+                } else return numToString(Math.acos(Double.parseDouble(arg)) / DEG);
+            case "atand":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.atan(m.get(i, j)) / DEG);
+                    return printMatrix(m);
+                } else return numToString(Math.atan(Double.parseDouble(arg)) / DEG);
+            case "log":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.log10(m.get(i, j)));
+                    return printMatrix(m);
+                } else return numToString(Math.log10(Double.parseDouble(arg)));
+            case "ln":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.log(m.get(i, j)));
+                    return printMatrix(m);
+                } else return numToString(Math.log(Double.parseDouble(arg)));
+            case "asin":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.asin(m.get(i, j)));
+                    return printMatrix(m);
+                } else return numToString(Math.asin(Double.parseDouble(arg)));
+            case "acos":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.acos(m.get(i, j)));
+                    return printMatrix(m);
+                } else return numToString(Math.acos(Double.parseDouble(arg)));
+            case "atan":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    for (int i = 0; i < m.numRows(); i++)
+                        for (int j = 0; j < m.numCols(); j++)
+                            m.set(i, j, Math.atan(m.get(i, j)));
+                    return printMatrix(m);
+                } else return numToString(Math.atan(Double.parseDouble(arg)));
+            case "det":
+                if (arg.startsWith("[[")) {
+                    SimpleMatrix m = parseMatrix(arg);
+                    if (m.numCols() != m.numRows()) throw new SyntaxException();
+                    double d = m.determinant();
+                    return numToString(d);
+                } else return arg; // Determinant of a scalar is equivalent to det. of
+                // 1x1 matrix, which is the matrix' one element
+            default:
+                throw new SyntaxException();
+        }
     }
 
     private Object applyPow(Object l, Object r) throws SyntaxException {
@@ -474,7 +479,7 @@ public class MatrixModule extends Module {
             if (m != n) throw new SyntaxException();
             double b = (Double) r;
             if (b > Math.floor(b)) {
-                SimpleSVD<SimpleMatrix> decomp = new SimpleSVD<SimpleMatrix>(a.getMatrix(), false);
+                SimpleSVD<SimpleMatrix> decomp = new SimpleSVD<>(a.getMatrix(), false);
                 SimpleMatrix S = decomp.getW();
                 for (int i1 = 0; i1 < m; i1++) {
                     for (int j = 0; j < n; j++) {
@@ -500,7 +505,7 @@ public class MatrixModule extends Module {
             if (m != n) throw new SyntaxException();
             double b = (Double) l;
             if (b > Math.floor(b)) {
-                SimpleSVD<SimpleMatrix> decomp = new SimpleSVD<SimpleMatrix>(a.getMatrix(), false);
+                SimpleSVD<SimpleMatrix> decomp = new SimpleSVD<>(a.getMatrix(), false);
                 SimpleMatrix S = decomp.getW();
                 for (int i1 = 0; i1 < m; i1++) {
                     for (int j = 0; j < n; j++) {
@@ -526,7 +531,7 @@ public class MatrixModule extends Module {
         }
     }
 
-    private Object applyMult(Object l, Object r) throws SyntaxException {
+    private Object applyMult(Object l, Object r) {
         if (l instanceof SimpleMatrix && r instanceof SimpleMatrix) {
             SimpleMatrix a = (SimpleMatrix) l;
             SimpleMatrix b = (SimpleMatrix) r;
@@ -546,7 +551,7 @@ public class MatrixModule extends Module {
         }
     }
 
-    private Object applyDiv(Object l, Object r) throws SyntaxException {
+    private Object applyDiv(Object l, Object r) {
         if (l instanceof SimpleMatrix && r instanceof SimpleMatrix) {
             SimpleMatrix a = (SimpleMatrix) l;
             SimpleMatrix b = (SimpleMatrix) r;

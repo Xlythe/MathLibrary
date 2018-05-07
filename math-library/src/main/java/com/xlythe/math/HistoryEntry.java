@@ -20,6 +20,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class HistoryEntry {
     private static final int VERSION_1 = 1;
     private static final int VERSION_4 = 4;

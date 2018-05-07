@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+@SuppressWarnings({"WeakerAccess", "unused", "StringConcatenationInLoop"})
 public class BaseModule extends Module {
     // Used to keep a reference to the cursor in text
     public static final char SELECTION_HANDLE = '\u2620';
@@ -209,7 +210,7 @@ public class BaseModule extends Module {
     }
 
     private Object[] removeWhitespace(String[] strings) {
-        ArrayList<String> formatted = new ArrayList<String>(strings.length);
+        ArrayList<String> formatted = new ArrayList<>(strings.length);
         for (String s : strings) {
             if (s != null && !s.isEmpty()) formatted.add(s);
         }

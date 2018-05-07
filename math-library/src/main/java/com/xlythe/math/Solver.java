@@ -16,6 +16,7 @@ import java.util.Locale;
  * Matrices
  * Hex and Bin conversion
  */
+@SuppressWarnings({"WeakerAccess", "unused", "ConstantConditions"})
 public class Solver {
     // Used for solving basic math
     private static final Symbols sSymbols = new Symbols();

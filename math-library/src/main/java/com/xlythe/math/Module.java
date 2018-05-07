@@ -3,6 +3,7 @@ package com.xlythe.math;
 /**
  * A super class for BaseModule, GraphModule, MatrixModule
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Module {
     // Used whenever math is necessary
     private final Solver mSolver;

@@ -1,5 +1,6 @@
 package com.xlythe.math;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
 import org.javia.arity.SyntaxException;
@@ -9,6 +10,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class GraphModule extends Module {
     private static final String X = "X";
     private static final String Y = "Y";
@@ -53,10 +55,12 @@ public class GraphModule extends Module {
         return newTask;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public interface OnGraphUpdatedListener {
         void onGraphUpdated(List<Point> result);
     }
 
+    @SuppressLint("StaticFieldLeak")
     class GraphTask extends AsyncTask<String, String, List<Point>> {
         private final Solver mSolver;
         private final OnGraphUpdatedListener mListener;
@@ -93,13 +97,14 @@ public class GraphModule extends Module {
                     return graph(equation);
                 }
             } catch (SyntaxException e) {
+                e.printStackTrace();
                 cancel(true);
                 return null;
             }
         }
 
         public List<Point> graph(String equation) {
-            final LinkedList<Point> series = new LinkedList<Point>();
+            final LinkedList<Point> series = new LinkedList<>();
             mSolver.pushFrame();
 
             final float delta = 0.1f * mZoomLevel;
@@ -113,6 +118,7 @@ public class GraphModule extends Module {
                     float y = (float) mSolver.eval(equation);
                     series.add(new Point(x, y));
                 } catch (SyntaxException e) {
+                    e.printStackTrace();
                 }
             }
             mSolver.popFrame();
@@ -136,6 +142,7 @@ public class GraphModule extends Module {
                         float y = (float) mSolver.eval(rightEquation);
                         series.add(new Point(x, y));
                     } catch (SyntaxException e) {
+                        e.printStackTrace();
                     }
                 }
             } else if (leftEquation.equals(X) && !rightEquation.contains(X)) {
@@ -149,6 +156,7 @@ public class GraphModule extends Module {
                         float x = (float) mSolver.eval(rightEquation);
                         series.add(new Point(x, y));
                     } catch (SyntaxException e) {
+                        e.printStackTrace();
                     }
                 }
             } else if (rightEquation.equals(Y) && !leftEquation.contains(Y)) {
@@ -162,6 +170,7 @@ public class GraphModule extends Module {
                         float y = (float) mSolver.eval(leftEquation);
                         series.add(new Point(x, y));
                     } catch (SyntaxException e) {
+                        e.printStackTrace();
                     }
                 }
             } else if (rightEquation.equals(X) && !leftEquation.contains(X)) {
@@ -175,6 +184,7 @@ public class GraphModule extends Module {
                         float x = (float) mSolver.eval(leftEquation);
                         series.add(new Point(x, y));
                     } catch (SyntaxException e) {
+                        e.printStackTrace();
                     }
                 }
             } else {
@@ -196,6 +206,7 @@ public class GraphModule extends Module {
                                 series.add(new Point(x, y));
                             }
                         } catch (SyntaxException e) {
+                            e.printStackTrace();
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 package com.xlythe.math;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class EquationFormatter {
 
     /**

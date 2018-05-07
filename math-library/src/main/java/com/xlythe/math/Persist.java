@@ -28,12 +28,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Persist {
     private static final String TAG = Persist.class.getSimpleName();
     private static final int LAST_VERSION = 4;
     private static final String FILE_NAME = "calculator.data";
     private final Context mContext;
-    History mHistory = new History();
+    private History mHistory = new History();
     private int mDeleteMode;
     private Base mMode;
 

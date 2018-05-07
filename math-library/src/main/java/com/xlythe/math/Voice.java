@@ -9,10 +9,11 @@ import java.util.regex.Pattern;
 /**
  * Parse spoken text (eg. sign as sin) or speak spoken text (eg. *  as multiplied by)
  */
+@SuppressWarnings({"WeakerAccess", "unused", "StringConcatenationInLoop"})
 public class Voice {
     public static String parseSpokenText(String text) {
         if (Locale.getDefault().equals(Locale.ENGLISH)) {
-            List<String> exceptions = new LinkedList<String>();
+            List<String> exceptions = new LinkedList<>();
             text = text.toLowerCase(Locale.ENGLISH);
             text = text.replace("percent", "%");
             text = text.replace("point", ".");

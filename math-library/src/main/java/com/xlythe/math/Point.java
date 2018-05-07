@@ -3,6 +3,7 @@ package com.xlythe.math;
 /**
  * Represents a point on a graph
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Point {
     private final float x;
     private final float y;

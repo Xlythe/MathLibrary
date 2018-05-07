@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Will on 11/8/2014.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Constants {
     public static final String INFINITY_UNICODE = "\u221e";
     // Double.toString() for Infinity
