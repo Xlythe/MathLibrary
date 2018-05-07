@@ -9,7 +9,7 @@ Where to Download
 -----------------
 ```groovy
 dependencies {
-  compile 'com.xlythe:math-library:1.0.1'
+  compile 'com.xlythe:math-library:1.0.2'
 }
 ```
 
