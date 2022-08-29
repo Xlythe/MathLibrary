@@ -192,7 +192,7 @@ public class BaseModule extends Module {
 
         double decimal;
         if (originalBase != 10) {
-            String decimalFraction = Long.toString(Long.parseLong(split[1], originalBase)) + "/" + originalBase + "^" + split[1].length();
+            String decimalFraction = Long.parseLong(split[1], originalBase) + "/" + originalBase + "^" + split[1].length();
             decimal = getSolver().eval(decimalFraction);
         } else {
             decimal = Double.parseDouble("0." + split[1]);

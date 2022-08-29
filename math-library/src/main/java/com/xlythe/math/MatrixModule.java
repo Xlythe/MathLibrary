@@ -247,12 +247,12 @@ public class MatrixModule extends Module {
         // Realistically, there will only be a few of them.
         // For the purposes of this app, it's no big deal.
         for (int i = 0; i < N; i++) {
-            int[] landr = null;
+            int[] landr;
             if (ops[i] == Constants.MUL || ops[i] == Constants.DIV) {
                 landr = lookAfield(pieces, i);
                 int l = landr[0];
                 int r = landr[1];
-                Object res = null;
+                Object res;
                 if (ops[i] == Constants.MUL) res = applyMult(pieces[l], pieces[r]);
                 else res = applyDiv(pieces[l], pieces[r]);
                 // else res = applyMod(pieces[l], pieces[r]);
@@ -263,12 +263,12 @@ public class MatrixModule extends Module {
         }
 
         for (int i = 0; i < N; i++) {
-            int[] landr = null;
+            int[] landr;
             if (ops[i] == '+' || ops[i] == '-') {
                 landr = lookAfield(pieces, i);
                 int l = landr[0];
                 int r = landr[1];
-                Object res = null;
+                Object res;
                 if (ops[i] == '+') res = applyPlus(pieces[l], pieces[r]);
                 else res = applySub(pieces[l], pieces[r]);
 

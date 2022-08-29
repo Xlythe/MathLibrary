@@ -1,20 +1,25 @@
 package com.xlythe.math;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import org.javia.arity.SyntaxException;
 
-public class MathTest extends TestCase {
+public class MathTest {
+    @Test
     public void testAddition() throws SyntaxException {
         Solver solver = new Solver();
         assertEquals("Addition", "3", solver.solve("1+2"));
     }
 
+    @Test
     public void testComplexMath() throws SyntaxException {
         Solver solver = new Solver();
         assertEquals("Trig", "1", solver.solve("sind(90)"));
     }
 
+    @Test
     public void testMatrices() throws SyntaxException {
         Solver solver = new Solver();
 

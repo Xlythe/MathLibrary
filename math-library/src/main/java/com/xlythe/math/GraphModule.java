@@ -61,7 +61,7 @@ public class GraphModule extends Module {
     }
 
     @SuppressLint("StaticFieldLeak")
-    class GraphTask extends AsyncTask<String, String, List<Point>> {
+    static class GraphTask extends AsyncTask<String, String, List<Point>> {
         private final Solver mSolver;
         private final OnGraphUpdatedListener mListener;
         private final float mMinY;

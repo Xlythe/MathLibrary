@@ -27,7 +27,7 @@ public class History {
     private static final int VERSION_1 = 1;
     private static final int VERSION_4 = 4;
     private static final int MAX_ENTRIES = 100;
-    private List<HistoryEntry> mEntries = new LinkedList<>();
+    private final List<HistoryEntry> mEntries = new LinkedList<>();
     private int mPos;
     private int mGroupId;
     private Observer mObserver;

@@ -20,9 +20,9 @@ import java.util.Locale;
 public class Solver {
     // Used for solving basic math
     private static final Symbols sSymbols = new Symbols();
-    private BaseModule mBaseModule;
-    private MatrixModule mMatrixModule;
-    private GraphModule mGraphModule;
+    private final BaseModule mBaseModule;
+    private final MatrixModule mMatrixModule;
+    private final GraphModule mGraphModule;
     private int mLineLength = 8;
     private Localizer mLocalizer;
 
