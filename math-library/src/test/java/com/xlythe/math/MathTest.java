@@ -5,7 +5,12 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import org.javia.arity.SyntaxException;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
+@RunWith(RobolectricTestRunner.class)
+@Config(minSdk=14)
 public class MathTest {
     @Test
     public void testAddition() throws SyntaxException {
