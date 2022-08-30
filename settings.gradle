@@ -1,1 +1,1 @@
-include ':math-library', ':arity'
+include ':math-library'
