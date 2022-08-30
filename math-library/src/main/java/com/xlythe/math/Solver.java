@@ -4,7 +4,6 @@ import android.content.Context;
 
 import org.javia.arity.Complex;
 import org.javia.arity.Symbols;
-import org.javia.arity.SyntaxException;
 
 import java.util.Locale;
 
@@ -91,7 +90,12 @@ public class Solver {
         // Convert to decimal
         String decimalInput = convertToDecimal(input);
 
-        Complex value = sSymbols.evalComplex(decimalInput);
+        Complex value;
+        try {
+            value = sSymbols.evalComplex(decimalInput);
+        } catch (org.javia.arity.SyntaxException e) {
+            throw SyntaxException.from(e);
+        }
 
         String real = "";
         for (int precision = mLineLength; precision > 6; precision--) {
@@ -129,7 +133,11 @@ public class Solver {
     }
 
     public double eval(String input) throws SyntaxException {
-        return sSymbols.eval(input);
+        try {
+            return sSymbols.eval(input);
+        } catch (org.javia.arity.SyntaxException e) {
+            throw SyntaxException.from(e);
+        }
     }
 
     public void pushFrame() {

@@ -5,7 +5,6 @@ import android.util.Log;
 import org.ejml.simple.SimpleEVD;
 import org.ejml.simple.SimpleMatrix;
 import org.ejml.simple.SimpleSVD;
-import org.javia.arity.SyntaxException;
 
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -288,7 +287,11 @@ public class MatrixModule extends Module {
     }// end main
 
     String evaluateMatrices(String text) throws SyntaxException {
-        text = getSolver().convertToDecimal(text);
+        try {
+            text = getSolver().convertToDecimal(text);
+        } catch (org.javia.arity.SyntaxException e) {
+            throw SyntaxException.from(e);
+        }
         String result = dirty(calculate(text));
         return getSolver().getBaseModule().changeBase(result, getSolver().getBase());
     }

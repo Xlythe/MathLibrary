@@ -2,8 +2,6 @@ package com.xlythe.math;
 
 import android.util.Log;
 
-import org.javia.arity.SyntaxException;
-
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -193,7 +191,11 @@ public class BaseModule extends Module {
         double decimal;
         if (originalBase != 10) {
             String decimalFraction = Long.parseLong(split[1], originalBase) + "/" + originalBase + "^" + split[1].length();
-            decimal = getSolver().eval(decimalFraction);
+            try {
+                decimal = getSolver().eval(decimalFraction);
+            } catch (org.javia.arity.SyntaxException e) {
+                throw SyntaxException.from(e);
+            }
         } else {
             decimal = Double.parseDouble("0." + split[1]);
         }
