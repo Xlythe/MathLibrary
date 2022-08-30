@@ -1,17 +1,17 @@
 package com.xlythe.math;
 
-public class SyntaxException extends org.javia.arity.SyntaxException {
+public class SyntaxException extends Exception {
   static SyntaxException from(org.javia.arity.SyntaxException e) {
-    SyntaxException syntaxException = new SyntaxException();
-    syntaxException.expression = e.expression;
-    syntaxException.message = e.message;
-    syntaxException.position = e.position;
+    SyntaxException syntaxException = new SyntaxException(e.toString());
     syntaxException.setStackTrace(e.getStackTrace());
     return syntaxException;
   }
 
-  @Override
-  public String getMessage() {
-    return message;
+  public SyntaxException() {
+    super();
+  }
+
+  public SyntaxException(String message) {
+    super(message);
   }
 }
