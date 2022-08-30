@@ -115,7 +115,7 @@ public class GraphModule extends Module {
                     mSolver.define(X, x);
                     float y = (float) mSolver.eval(equation);
                     series.add(new Point(x, y));
-                } catch (org.javia.arity.SyntaxException e) {
+                } catch (SyntaxException e) {
                     e.printStackTrace();
                 }
             }
@@ -139,7 +139,7 @@ public class GraphModule extends Module {
                         mSolver.define(X, x);
                         float y = (float) mSolver.eval(rightEquation);
                         series.add(new Point(x, y));
-                    } catch (org.javia.arity.SyntaxException e) {
+                    } catch (SyntaxException e) {
                         e.printStackTrace();
                     }
                 }
@@ -153,7 +153,7 @@ public class GraphModule extends Module {
                         mSolver.define(Y, y);
                         float x = (float) mSolver.eval(rightEquation);
                         series.add(new Point(x, y));
-                    } catch (org.javia.arity.SyntaxException e) {
+                    } catch (SyntaxException e) {
                         e.printStackTrace();
                     }
                 }
@@ -167,7 +167,7 @@ public class GraphModule extends Module {
                         mSolver.define(X, x);
                         float y = (float) mSolver.eval(leftEquation);
                         series.add(new Point(x, y));
-                    } catch (org.javia.arity.SyntaxException e) {
+                    } catch (SyntaxException e) {
                         e.printStackTrace();
                     }
                 }
@@ -181,7 +181,7 @@ public class GraphModule extends Module {
                         mSolver.define(Y, y);
                         float x = (float) mSolver.eval(leftEquation);
                         series.add(new Point(x, y));
-                    } catch (org.javia.arity.SyntaxException e) {
+                    } catch (SyntaxException e) {
                         e.printStackTrace();
                     }
                 }
@@ -203,7 +203,7 @@ public class GraphModule extends Module {
                             if (condensedResult < 0.02f) {
                                 series.add(new Point(x, y));
                             }
-                        } catch (org.javia.arity.SyntaxException e) {
+                        } catch (SyntaxException e) {
                             e.printStackTrace();
                         }
                     }

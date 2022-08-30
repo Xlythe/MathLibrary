@@ -287,11 +287,7 @@ public class MatrixModule extends Module {
     }// end main
 
     String evaluateMatrices(String text) throws SyntaxException {
-        try {
-            text = getSolver().convertToDecimal(text);
-        } catch (org.javia.arity.SyntaxException e) {
-            throw SyntaxException.from(e);
-        }
+        text = getSolver().convertToDecimal(text);
         String result = dirty(calculate(text));
         return getSolver().getBaseModule().changeBase(result, getSolver().getBase());
     }
