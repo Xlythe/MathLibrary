@@ -94,6 +94,7 @@ signing {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api project(':arity')
+    api 'org.ejml:ejml-all:[0.41,)'
     testImplementation 'org.robolectric:robolectric:+'
     testImplementation 'junit:junit:4.13.2'
 }
