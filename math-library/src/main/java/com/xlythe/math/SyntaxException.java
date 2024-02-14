@@ -11,6 +11,10 @@ public class SyntaxException extends Exception {
     super();
   }
 
+  public SyntaxException(Throwable throwable) {
+    super(throwable);
+  }
+
   public SyntaxException(String message) {
     super(message);
   }

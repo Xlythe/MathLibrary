@@ -78,14 +78,14 @@ public class BaseModule extends Module {
                                 try {
                                     translatedNumbers[i] = newBase(numbers[i], 2, 10);
                                 } catch (NumberFormatException e) {
-                                    throw new SyntaxException();
+                                    throw new SyntaxException(e);
                                 }
                                 break;
                             case HEXADECIMAL:
                                 try {
                                     translatedNumbers[i] = newBase(numbers[i], 2, 16);
                                 } catch (NumberFormatException e) {
-                                    throw new SyntaxException();
+                                    throw new SyntaxException(e);
                                 }
                                 break;
                         }
@@ -96,7 +96,7 @@ public class BaseModule extends Module {
                                 try {
                                     translatedNumbers[i] = newBase(numbers[i], 10, 2);
                                 } catch (NumberFormatException e) {
-                                    throw new SyntaxException();
+                                    throw new SyntaxException(e);
                                 }
                                 break;
                             case DECIMAL:
@@ -105,7 +105,7 @@ public class BaseModule extends Module {
                                 try {
                                     translatedNumbers[i] = newBase(numbers[i], 10, 16);
                                 } catch (NumberFormatException e) {
-                                    throw new SyntaxException();
+                                    throw new SyntaxException(e);
                                 }
                                 break;
                         }
@@ -116,7 +116,7 @@ public class BaseModule extends Module {
                                 try {
                                     translatedNumbers[i] = newBase(numbers[i], 16, 2);
                                 } catch (NumberFormatException e) {
-                                    throw new SyntaxException();
+                                    throw new SyntaxException(e);
                                 }
                                 break;
                             case DECIMAL:
@@ -124,7 +124,7 @@ public class BaseModule extends Module {
                                     translatedNumbers[i] = newBase(numbers[i], 16, 10);
                                 } catch (NumberFormatException e) {
                                     Log.e(TAG, numbers[i] + " is not a number", e);
-                                    throw new SyntaxException();
+                                    throw new SyntaxException(e);
                                 }
                                 break;
                             case HEXADECIMAL:
